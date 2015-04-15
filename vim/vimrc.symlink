@@ -1,0 +1,5 @@
+syntax on
+set background=dark
+
+" Wrap gitcommit file types at the appropriate length
+filetype indent plugin on
