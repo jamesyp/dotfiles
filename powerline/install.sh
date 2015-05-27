@@ -9,7 +9,7 @@ then
 fi
 
 # install powerline
-pip install --user powerline-status
+pip install powerline-status
 
 # install powerline patched fonts
 cd ~/Themes
