@@ -1,20 +1,109 @@
 #!/usr/bin/env bash
 #
-# Run all dotfiles installers.
 
-set -e
+# Ask for admin password upfront
+sudo -v
+# Keep-alive: update existing sudo timestamp until the script has finished.
+while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2> /dev/null &
 
-cd "$(dirname $0)"/..
+# install & update Homebrew
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew update
+brew upgrade --all
 
-# install "general" packages
-while read p; do
-  echo "installing $p..."
-  apt-get install -y $p 
-done < packages
+# Install GNU core utilities (OS X ones are outdated)
+# (remember to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
+brew install coreutils
+sudo ln -s /usr/local/bin/gsha256sum /usr/local/bin/sha256sum
 
-# find the installers and run them iteratively
-find . -name install.sh | while read installer ; do sh -c "${installer}" ; done
+brew install moreutils
+brew install findutils
+brew install gnu-sed --with-default-names  		#Install GNU sed and overwrite built-in
 
-# fix my ownership because script was run as root
-# (this is dumb and there's probably a better way
-chown -R james:james /home/james/*
+# install Bash 4 (this is for security, I use zsh)
+brew install bash
+
+# Install more recent versions of some OS X tools
+brew install vim --override-system-vi
+brew install homebrew/dupes/grep
+brew install homebrew/dupes/openssh
+brew install homebrew/dupes/screen
+brew install homebrew/php/php55 --with-gmp
+
+# install other binaries
+binaries = (
+  graphicsmagick
+  webkit2png
+  rename
+  zopfli
+  ffmpeg
+  python
+  sshfs
+  trash
+  tree
+  wget
+  ack
+  hub
+  git
+  zsh
+  zsh completions
+  tmux
+  heroku-toolbelt
+  dark-mode
+)
+
+echo "installing other binaries..."
+brew install ${binaries[@]}
+
+echo "installing rvm..."
+\curl -sSL https://get.rvm.io | bash -s stable
+
+apps = (
+  # core
+  alfred
+  mactracker
+  dropbox
+  iterm2
+  google-chrome
+  firefox
+  slack
+  vlc
+  flux
+  skype
+  transmission
+  appcleaner
+  spectacle
+
+  # development
+  sourcetree
+  sublime-text3
+  macvim
+  light-table
+  virtualbox
+  vagrant
+  postgresql
+  node
+
+  # quicklook
+  qlstephen
+  qlprettypatch
+  qlcolorcode
+  qlmarkdown
+  quicklook-json
+
+  # google
+  google-drive
+  google-earth
+)
+
+# install apps to /Applications rather than /Users/$user/Applications
+echo "installing applications..."
+brew install caskroom/cask/brew-cask
+brew tap caskroom/versions
+brew cask install --appdir="/Applications" ${apps[@]}
+
+echo "linking apps to alfred..."
+brew cask alfred link
+
+brew cleanup --force
+rm -rf /Library/Caches/Homebrew/*
