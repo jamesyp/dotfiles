@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/james/.oh-my-zsh
+export ZSH=/Users/james/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -82,3 +82,8 @@ alias c='clear'
 alias lo='exit'
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+# Activate zsh completions
+fpath=(/usr/local/share/zsh-completions $fpath)
+
+# GitHub API token for Homebrew
+export HOMEBREW_GITHUB_API_TOKEN="d57085b450a7956743821157073d88b2c92b1f52"

@@ -27,26 +27,24 @@ brew install bash
 brew install vim --override-system-vi
 brew install homebrew/dupes/grep
 brew install homebrew/dupes/openssh
-brew install homebrew/dupes/screen
-brew install homebrew/php/php55 --with-gmp
 
 # install other binaries
-binaries = (
+binaries=(
   graphicsmagick
   webkit2png
   rename
   zopfli
   ffmpeg
   python
-  sshfs
   trash
   tree
-  wget
   ack
+  wget
   hub
   git
+  postgresql
   zsh
-  zsh completions
+  zsh-completions
   tmux
   heroku-toolbelt
   dark-mode
@@ -58,7 +56,7 @@ brew install ${binaries[@]}
 echo "installing rvm..."
 \curl -sSL https://get.rvm.io | bash -s stable
 
-apps = (
+apps=(
   # core
   alfred
   mactracker
@@ -78,10 +76,9 @@ apps = (
   sourcetree
   sublime-text3
   macvim
-  light-table
+  lighttable
   virtualbox
   vagrant
-  postgresql
   node
 
   # quicklook
@@ -102,8 +99,19 @@ brew install caskroom/cask/brew-cask
 brew tap caskroom/versions
 brew cask install --appdir="/Applications" ${apps[@]}
 
-echo "linking apps to alfred..."
-brew cask alfred link
+fonts=(
+  source-code-pro
+)
+
+echo "installing some fonts..."
+brew tap caskroom/fonts
+brew cask install font-${fonts[@]}
 
 brew cleanup --force
 rm -rf /Library/Caches/Homebrew/*
+
+# install oh-my-zsh
+curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+
+# download Solarized Dark for iTerm2
+wget https://raw.githubusercontent.com/altercation/solarized/master/iterm2-colors-solarized/Solarized%20Dark.itermcolors -O ~/Downloads/
