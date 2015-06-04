@@ -89,3 +89,4 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 export HOMEBREW_GITHUB_API_TOKEN="d57085b450a7956743821157073d88b2c92b1f52"
 
 . /usr/local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+PS1="$PS1 "   # Add a space just before the command
