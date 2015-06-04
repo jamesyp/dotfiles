@@ -42,6 +42,4 @@ set-option -g mouse-select-pane on
 set-option -g mouse-select-window on
 set-window-option -g mode-mouse on
 
-# powerline theme
-run-shell "powerline-daemon -q"
-source "/usr/local/lib/python2.7/dist-packages/powerline/bindings/tmux/powerline.conf"
+source "/usr/local/lib/python2.7/site-packages/powerline/bindings/tmux/powerline.conf"
